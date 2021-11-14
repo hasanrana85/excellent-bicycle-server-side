@@ -6,7 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 //middleware
 app.use(cors());
@@ -114,8 +114,9 @@ async function run(){
             const email = req.params.email;
             const query = {email: email};
             const user = await usersCollection.findOne(query);
+            console.log(user);
             let isAdmin = false;
-            if(user.role === 'admin'){
+            if(user && user.role === 'admin'){
                 isAdmin = true;
             }
             res.json({ admin: isAdmin });
